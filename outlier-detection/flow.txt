@@ -1,0 +1,10 @@
+Project flow and req:
+Mode 1: Outlier detection without classification- should work on all types of diff classes as classification is not required
+    Algos: Feature Extraction and clustering with single cluster. Feature extraction should be hardcoded for more codelines if possible
+    single cluster and the outlier is the one farthest from the centroid
+    There should be an option to show the clustering plot to show how farther the outlier was from the cluster centroid
+Mode 2: Classification along with outlier detection- Required dataset from internet OR a pretrained supervised model like resnet50
+Mode 3:partition the input images into classes using clustering(3 classes)
+Mode 4: If 3 or 4 classes are given of flowers but in some classes there is an image better fitting to another classes, find that
+
+UI: Keep basic; select mode, upload images, and different result page for each mode
