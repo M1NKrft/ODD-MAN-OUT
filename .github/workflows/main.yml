@@ -37,10 +37,13 @@ jobs:
 
     - name: Run tests
       run: |
-        python -m unittest discover -s outlier-detection/tests
+        cd outlier-detection
+        python -m unittest discover -s tests
+        cd ..
 
     - name: Check code coverage
       run: |
         pip install coverage
-        coverage run -m unittest discover -s outlier-detection/tests
+        cd outlier-detection
+        coverage run -m unittest discover -s /tests
         coverage report
