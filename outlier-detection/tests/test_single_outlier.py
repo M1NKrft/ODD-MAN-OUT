@@ -25,7 +25,6 @@ class TestOutlierDetection(unittest.TestCase):
 
         # Assert the outlier is correctly identified
         self.assertEqual(outlier_index, 2)  # The outlier is at index 2
-
     def test_detect_outlier_f(self):
         """Test detect_outlier_f with precomputed features."""
         # Call the function with dummy features
