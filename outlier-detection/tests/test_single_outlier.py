@@ -14,7 +14,6 @@ class TestOutlierDetection(unittest.TestCase):
             [1.1, 2.1, 3.1, 4.1],  # Normal point
             [10.0, 20.0, 30.0, 40.0]  # Outlier
         ])
-
     @patch("src.single_outlier.extract_features")
     def test_detect_outlier(self, mock_extract_features):
         """Test detect_outlier with mocked feature extraction."""
