@@ -20,6 +20,7 @@ class TestDetectAndClassify(unittest.TestCase):
             #odd_data_folder=self.image_dir,
             #model_path=self.model_path
         )
+        
         self.assertEqual(1, 1)
         return
         self.assertTrue(os.path.exists(odd_path))
