@@ -33,5 +33,6 @@ class TestDetectAndClassify(unittest.TestCase):
         expected_odd_path = files[self.expected_odd_index]
         self.assertEqual(odd_path, expected_odd_path)
 
+
 if __name__ == "__main__":
     unittest.main()
