@@ -1,7 +1,12 @@
 import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
+
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
 from feature_extraction import extract_features
+
 def detect_outlier(file_paths):
     """
     Detects the outlier as the farthest point from the single-cluster centroid.

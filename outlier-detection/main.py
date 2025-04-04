@@ -54,13 +54,23 @@ def detect_outlier_route():
     outlier_image = file_paths[outlier_index] if outlier_index is not None else None
 
     return render_template("single_out.html", file_paths=file_paths, outlier_image=outlier_image)
-
-@app.route('/clustering', methods=['POST', 'GET'])
+@app.route('/clustering', methods=['GET', 'POST'])
 def cluster():
-    n_clusters = 3
-    
+    if request.method == 'POST':
+        try:
+            n_clusters = int(request.form.get("n_clusters", 3))
+        except ValueError:
+            n_clusters = 3
+    else:
+        n_clusters = 3
+
     image_dir = "static/images"
     output_dir = "cluster_folders"
+    image_paths = [os.path.join(image_dir, f) for f in os.listdir(image_dir) if f.endswith(('jpg', 'jpeg', 'png'))]
+    num_images = len(image_paths)
+    if n_clusters > num_images:
+        error_message = f"Number of clusters ({n_clusters}) cannot exceed the number of images ({num_images})."
+        return render_template("cluster_result.html", error_message=error_message, n_clusters=n_clusters)
 
     labels, image_paths, cluster_plot = cluster_images(image_dir, output_dir, n_clusters)
 
@@ -73,9 +83,9 @@ def cluster():
     return render_template(
         "cluster_result.html",
         clustered_images=clustered_images,
-        cluster_plot=cluster_plot
+        cluster_plot=cluster_plot,
+        n_clusters=n_clusters
     )
-
 @app.route('/flowerclassify', methods=['POST', 'GET'])
 def flowerclassify():
     file_paths = [os.path.join(UPLOAD_FOLDER, f) for f in os.listdir(UPLOAD_FOLDER)]

@@ -5,7 +5,8 @@ from PIL import Image
 import os
 import numpy as np
 
-
+import sys
+sys.path.append(os.path.abspath("..")) 
 model = models.resnet50(pretrained=True)
 model = torch.nn.Sequential(*list(model.children())[:-1])
 model.eval() 
@@ -31,4 +32,3 @@ def extract_features_from_directory(image_dir):
     image_paths = [os.path.join(image_dir, img) for img in os.listdir(image_dir) if img.endswith(".jpg")]
     features = np.array([extract_features(img) for img in image_paths])
     return features, image_paths
-

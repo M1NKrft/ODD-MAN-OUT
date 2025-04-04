@@ -3,23 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/styles.css">
     <title>Clustering Results</title>
 </head>
 <body>
     <h1>Image Clustering Results</h1>
 
-    {% for class_label, images in clustered_images.items() %}
-        <h2>Class {{ class_label }}</h2>
-        <div>
-            {% for img in images %}
-                <img src="{{ img }}" alt="Clustered Image" style="width: 150px; height: auto; margin: 5px;">
-            {% endfor %}
-        </div>
-    {% endfor %}
+    <form method="POST" action="/clustering">
+        <label for="n_clusters">Enter number of clusters:</label>
+        <input type="number" id="n_clusters" name="n_clusters" min="1" value="{{ n_clusters }}">
+        <button type="submit">Cluster Images</button>
+    </form>
+    {% if error_message %}
+    <div class="alert alert-danger">
+        {{ error_message }}
+    </div>
+    {% endif %}
+    {% if clustered_images %}
+        {% for class_label, images in clustered_images.items() %}
+            <h2>Class {{ class_label }}</h2>
+            <div>
+                {% for img in images %}
+                    <img src="{{ img }}" alt="Clustered Image" style="width: 150px; height: auto; margin: 5px;">
+                {% endfor %}
+            </div>
+        {% endfor %}
 
-    <h2>Cluster Visualization</h2>
-    <img src="{{ cluster_plot }}" alt="Cluster Plot">
-
+        <h2>Cluster Visualization</h2>
+        <img src="{{ cluster_plot }}" alt="Cluster Plot">
+    {% endif %}
 </body>
 </html>

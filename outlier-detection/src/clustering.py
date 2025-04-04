@@ -4,6 +4,8 @@ import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
 from feature_extraction import extract_features_from_directory
 from visualisation import visualize_clusters
 
