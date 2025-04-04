@@ -8,7 +8,7 @@ import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 from torch.utils.data import DataLoader
 from classification import load_data, FlowerClassifier
-def train_model(data_path, num_epochs=10, lr=0.001, save_path="~/flowerz/flower_model.pth"):
+def train_model(data_path="/home/ansh/flowerz/data/flowers", num_epochs=50, lr=0.001, save_path="/home/ansh/flowerz/flower_model.pth"):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     dataset, dataloader = load_data(data_path)
     num_classes = len(dataset.classes)

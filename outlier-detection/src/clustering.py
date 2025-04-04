@@ -9,20 +9,15 @@ from visualisation import visualize_clusters
 
 def cluster_images(image_dir, output_dir, n_clusters=3):
     """Clusters images and saves them into separate folders."""
-    
-    # Extract features
-    features, image_paths = extract_features_from_directory(image_dir)
 
-    # Normalize features
+    features, image_paths = extract_features_from_directory(image_dir)
     scaler = StandardScaler()
     features_scaled = scaler.fit_transform(features)
 
-    # KMeans Clustering
     kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
     labels = kmeans.fit_predict(features_scaled)
 
-    # Prepare output directories
-    shutil.rmtree(output_dir, ignore_errors=True)  # Clear old clusters
+    shutil.rmtree(output_dir, ignore_errors=True)
     os.makedirs(output_dir, exist_ok=True)
     
     class_folders = {}
@@ -30,12 +25,9 @@ def cluster_images(image_dir, output_dir, n_clusters=3):
         class_folder = os.path.join(output_dir, f"class-{i}")
         os.makedirs(class_folder, exist_ok=True)
         class_folders[i] = class_folder
-    
-    # Move images into respective folders
     for img_path, label in zip(image_paths, labels):
         shutil.copy(img_path, os.path.join(class_folders[label], os.path.basename(img_path)))
 
-    # Visualize clusters
     s = visualize_clusters(features_scaled, labels)
 
     return labels, image_paths, s

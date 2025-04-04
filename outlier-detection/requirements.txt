@@ -8,4 +8,3 @@ tensorflow
 opencv-python
 flask
 pillow
-kaggle
