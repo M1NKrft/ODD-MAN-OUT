@@ -12,7 +12,6 @@ class TestDetectAndClassify(unittest.TestCase):
         self.image_dir = "/home/ansh/ODD-MAN-OUT/outlier-detection/images"
         self.model_path = "/home/ansh/flowerz/flower_model.pth"
         self.expected_odd_index = 3 
-
     @patch("detectclassify.classify_image")
     def test_detect_and_classify(self, mock_classify):
         mock_classify.return_value = "Giant White Arum Lily"
