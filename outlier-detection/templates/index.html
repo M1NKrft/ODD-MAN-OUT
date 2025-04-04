@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Images</title>
+</head>
+<body>
+    <h1>Outlier Detection System</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="images" multiple required>
+        <button type="submit">Upload Images</button>
+    </form>
+    <hr>
+    <form action="/detect_outlier" method="get">
+        <button type="submit">Detect Single Outlier</button>
+    </form>
+    <form action="/clustering" method="get">
+        <button type="submit">Cluster Images</button>
+    </form>
+    <form action="/flowerclassify" method="get">
+        <button type="submit">Odd Flower Classification</button>
+    </form>
+</body>
+</html>

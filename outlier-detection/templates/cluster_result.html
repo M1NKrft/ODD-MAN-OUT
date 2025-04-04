@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clustering Results</title>
+</head>
+<body>
+    <h1>Image Clustering Results</h1>
+
+    {% for class_label, images in clustered_images.items() %}
+        <h2>Class {{ class_label }}</h2>
+        <div>
+            {% for img in images %}
+                <img src="{{ img }}" alt="Clustered Image" style="width: 150px; height: auto; margin: 5px;">
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    <h2>Cluster Visualization</h2>
+    <img src="{{ cluster_plot }}" alt="Cluster Plot">
+
+</body>
+</html>

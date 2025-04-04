@@ -1,34 +1,41 @@
+import os
+import shutil
+import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 from feature_extraction import extract_features_from_directory
 from visualisation import visualize_clusters
-from manual_feature_extraction import extract_features_from_dir_man
 
-def cluster_images(features, n_clusters=3):
-    """Clusters images based on their ResNet-50 features using K-Means."""
+def cluster_images(image_dir, output_dir, n_clusters=3):
+    """Clusters images and saves them into separate folders."""
+    
+    # Extract features
+    features, image_paths = extract_features_from_directory(image_dir)
+
+    # Normalize features
     scaler = StandardScaler()
-    features_scaled = scaler.fit_transform(features)  # Normalize
+    features_scaled = scaler.fit_transform(features)
 
+    # KMeans Clustering
     kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
     labels = kmeans.fit_predict(features_scaled)
 
-    return labels, features_scaled
-
-# Example: Clustering images from a folderin
-
-def integrate():
-    image_dir = "/home/ansh/outlier-detection/data/random_images"
-    features, image_paths = extract_features_from_directory(image_dir)
-    n_clusters = 3  # Set number of clusters
-    labels, features_scaled = cluster_images(features, n_clusters)
-
-    # Print cluster assignments
-    for img, label in zip(image_paths, labels):
-        print(f"Image: {img} -> Cluster {label}")
+    # Prepare output directories
+    shutil.rmtree(output_dir, ignore_errors=True)  # Clear old clusters
+    os.makedirs(output_dir, exist_ok=True)
+    
+    class_folders = {}
+    for i in range(n_clusters):
+        class_folder = os.path.join(output_dir, f"class-{i}")
+        os.makedirs(class_folder, exist_ok=True)
+        class_folders[i] = class_folder
+    
+    # Move images into respective folders
+    for img_path, label in zip(image_paths, labels):
+        shutil.copy(img_path, os.path.join(class_folders[label], os.path.basename(img_path)))
 
     # Visualize clusters
-    visualize_clusters(features_scaled, labels)
+    s = visualize_clusters(features_scaled, labels)
 
-integrate()
+    return labels, image_paths, s

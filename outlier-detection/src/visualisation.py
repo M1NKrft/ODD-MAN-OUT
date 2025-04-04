@@ -13,4 +13,6 @@ def visualize_clusters(features_scaled, labels):
     plt.title("Image Clustering with ResNet-50 Features")
     plt.xlabel("PCA Component 1")
     plt.ylabel("PCA Component 2")
-    plt.show()
+    plt.savefig("plot.jpg")
+    plt.close()
+    return "static/plot.jpg"

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outlier Detection Result</title>
+</head>
+<body>
+    <h1>Outlier Detection Result</h1>
+    <h2>Outlier image is outlined by red colour</h2>
+    {% for path in file_paths %}
+        {% if path == outlier_image %}
+            <img src="{{ path }}" width="150" style="border: 3px solid red;">
+        {% else %}
+            <img src="{{ path }}" width="150">
+        {% endif %}
+    {% endfor %}
+
+    <br><a href="/">Upload More Images</a>
+</body>
+</html>

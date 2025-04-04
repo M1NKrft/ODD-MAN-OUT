@@ -7,11 +7,9 @@ import torch.optim as optim
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 from torch.utils.data import DataLoader
-#from model_classify import train_model
 from utils.mapping import class_mapping
 import scipy.io
 import shutil
-# 1. Download Oxford 102 Flower Dataset
 def download_oxford_102(data_dir="/home/ansh/flowerz/data"):
     url = "https://www.robots.ox.ac.uk/~vgg/data/flowers/102/102flowers.tgz"
     label_url = "https://www.robots.ox.ac.uk/~vgg/data/flowers/102/imagelabels.mat"
@@ -35,7 +33,6 @@ def download_oxford_102(data_dir="/home/ansh/flowerz/data"):
 
     print("Dataset ready in:", data_dir)
 
-# 2. Data Loading & Preprocessing
 def load_data(data_path, batch_size=16):
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
@@ -46,7 +43,6 @@ def load_data(data_path, batch_size=16):
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
     return dataset, dataloader
 
-# 3. Define CNN Model
 class FlowerClassifier(nn.Module):
     def __init__(self, num_classes):
         super(FlowerClassifier, self).__init__()
@@ -70,17 +66,15 @@ class FlowerClassifier(nn.Module):
 
     def forward(self, x):
         x = self.conv_layers(x)
-        x = x.view(x.size(0), -1)  # Flatten
+        x = x.view(x.size(0), -1)
         return self.fc_layers(x)
 
-#data organisation
 def organize_images(data_dir="/home/ansh/flowerz/data"):
     label_path = os.path.join(data_dir, "imagelabels.mat")
     image_dir = os.path.join(data_dir, "jpg")
     output_dir = os.path.join(data_dir, "flowers")
 
     os.makedirs(output_dir, exist_ok=True)
-    # Load labels
     labels = scipy.io.loadmat(label_path)['labels'][0]
 
     for idx, label in enumerate(labels, start=1):
@@ -96,8 +90,6 @@ def organize_images(data_dir="/home/ansh/flowerz/data"):
 
     print("Images organized into class folders!")
 
-
-# 5. Load Model & Classify
 def classify_image(model_path, image_path):
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
@@ -110,7 +102,7 @@ def classify_image(model_path, image_path):
     image = transform(image).unsqueeze(0)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    dataset, _ = load_data("/home/ansh/flowerz/data/flowers")  # Load class labels
+    dataset, _ = load_data("/home/ansh/flowerz/data/flowers")
     num_classes = len(dataset.classes)
     
     model = FlowerClassifier(num_classes).to(device)
@@ -124,7 +116,7 @@ def classify_image(model_path, image_path):
     predicted_folder = f"{dataset.classes[predicted_class]}"
     print(f"Predicted Index: {predicted_class}, Folder: {predicted_folder}")
     print(f"Flower Name: {class_mapping.get(predicted_folder, 'Unknown Flower')}")
-    flowername = f"class_mapping.get(predicted_folder, 'Unknown Flower')"
+    flowername = class_mapping.get(predicted_folder, 'Unknown Flower')
     return flowername
 
 
